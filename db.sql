@@ -1,0 +1,6 @@
+CREATE TABLE students (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    generation INT NOT NULL,
+    present BOOLEAN DEFAULT FALSE NOT NULL
+);

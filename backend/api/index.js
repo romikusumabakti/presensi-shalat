@@ -1,10 +1,14 @@
 import express from "express";
 import cors from "cors";
-import { connection } from "../db.js";
+import { pool } from "../db.js";
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(
+  cors({
+    origin: "https://presensi-shalat.vercel.app",
+  })
+);
 
 // Hello world
 app.get("/api/v1", async (_req, res) => {
@@ -13,34 +17,34 @@ app.get("/api/v1", async (_req, res) => {
 
 // Get all students
 app.get("/api/v1/students", async (_req, res) => {
-  const result = await connection.query("SELECT * FROM students");
-  res.json(result);
+  const result = await pool.query("SELECT * FROM students");
+  res.json(result.rows);
 });
 
 // Add student
 app.post("/api/v1/students", async (req, res) => {
-  const result = await connection.query(
-    "INSERT INTO students VALUES (NULL, ?, ?, FALSE) RETURNING *",
+  const result = await pool.query(
+    "INSERT INTO students (name, generation) VALUES ($1, $2) RETURNING *",
     [req.body.name, req.body.generation]
   );
   res.json({
-    student: result[0],
+    student: result.rows[0],
     message: "Mahasiswa berhasil ditambahkan.",
   });
 });
 
 // Get student by ID
 app.get("/api/v1/students/:id", async (req, res) => {
-  const result = await connection.query("SELECT * FROM students WHERE id = ?", [
+  const result = await pool.query("SELECT * FROM students WHERE id = $1", [
     req.params.id,
   ]);
-  res.json(result[0]);
+  res.json(result.rows[0]);
 });
 
 // Edit student by ID
 app.put("/api/v1/students/:id", async (req, res) => {
-  await connection.execute(
-    "UPDATE students SET name = ?, generation = ? WHERE id = ?",
+  await pool.query(
+    "UPDATE students SET name = $1, generation = $2 WHERE id = $3",
     [req.body.name, req.body.generation, req.params.id]
   );
   res.send("Mahasiswa berhasil diedit.");
@@ -48,7 +52,7 @@ app.put("/api/v1/students/:id", async (req, res) => {
 
 // Set present by ID
 app.put("/api/v1/students/:id/present", async (req, res) => {
-  await connection.execute("UPDATE students SET present = ? WHERE id = ?", [
+  await pool.query("UPDATE students SET present = $1 WHERE id = $2", [
     req.body.present,
     req.params.id,
   ]);
@@ -57,9 +61,7 @@ app.put("/api/v1/students/:id/present", async (req, res) => {
 
 // Delete student by ID
 app.delete("/api/v1/students/:id", async (req, res) => {
-  await connection.execute("DELETE FROM students WHERE id = ?", [
-    req.params.id,
-  ]);
+  await pool.query("DELETE FROM students WHERE id = $1", [req.params.id]);
   res.send("Mahasiswa berhasil dihapus.");
 });
 

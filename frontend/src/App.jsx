@@ -11,21 +11,24 @@ export default function App() {
   const [editStudent, setEditStudent] = useState();
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/v1/students")
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/v1/students`)
       .then((response) => response.json())
       .then((students) => setStudents(students));
   }, []);
 
   function handleClick(student) {
-    fetch(`http://localhost:3000/api/v1/students/${student.id}/present`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        present: !student.present,
-      }),
-    })
+    fetch(
+      `${import.meta.env.VITE_API_BASE_URL}/v1/students/${student.id}/present`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          present: !student.present,
+        }),
+      }
+    )
       .then((response) => response.json())
       .then((present) => {
         setStudents(
@@ -43,7 +46,7 @@ export default function App() {
 
   function handleDelete(student) {
     if (confirm("Apakah Anda yakin ingin menghapus mahasiswa ini?")) {
-      fetch(`http://localhost:3000/api/v1/students/${student.id}`, {
+      fetch(`${import.meta.env.VITE_API_BASE_URL}/v1/students/${student.id}`, {
         method: "DELETE",
       })
         .then((response) => response.text())
@@ -183,7 +186,7 @@ export default function App() {
                       });
                   } else {
                     // kalo tambah
-                    fetch("http://localhost:3000/api/v1/students", {
+                    fetch(`${import.meta.env.VITE_API_BASE_URL}/v1/students`, {
                       method: "POST",
                       headers: {
                         "Content-Type": "application/json",
