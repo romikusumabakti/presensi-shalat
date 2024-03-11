@@ -1,0 +1,162 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Presensi Shalat",
+    "dateExported": "2024-03-11T05:23:41.920Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "ed4dc946-5422-464e-9031-271bba5ce102",
+            "name": "Student",
+            "containerId": "",
+            "created": "2024-03-11T05:22:21.999Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "6db7a1ef-bfac-48eb-b52a-63978e89e75c",
+            "name": "Auth",
+            "containerId": "",
+            "created": "2024-03-11T05:22:54.292Z",
+            "sortNum": 20000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "d5316585-f5e7-4f08-903d-d724f0a48f7d",
+            "colId": "42c72c95-ca07-47ca-8529-d77a0e69b947",
+            "containerId": "",
+            "name": "Welcome",
+            "url": "http://localhost:3000/api/v1",
+            "method": "GET",
+            "sortNum": 5000,
+            "created": "2024-03-11T05:03:44.272Z",
+            "modified": "2024-03-11T05:03:56.930Z",
+            "headers": [],
+            "params": [],
+            "reqType": "get",
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJyb21pIiwicGFzc3dvcmQiOiIkYXJnb24yaWQkdj0xOSRtPTY1NTM2LHQ9MyxwPTQkelBMSkJLelB2VVlnRWxpd2QrQkladyR0Wml4dkJNNmhOOExpM0xST0gvdHRQNGdIVUsySys1SllmYWJSSC9LSmNZIiwiaWF0IjoxNzEwMTMzMzMyfQ.7JXtMr7F7SlpLHxjyb1t6pHeCy5g-kQp5Q87bMIbjco"
+            },
+            "tests": []
+        },
+        {
+            "_id": "d67901c3-76b7-4cb1-a8b6-09cffa898f08",
+            "colId": "42c72c95-ca07-47ca-8529-d77a0e69b947",
+            "containerId": "ed4dc946-5422-464e-9031-271bba5ce102",
+            "name": "Get all",
+            "url": "http://localhost:3000/api/v1/students",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-02-25T03:24:46.207Z",
+            "modified": "2024-03-11T05:21:12.318Z",
+            "headers": [],
+            "params": [],
+            "reqType": "get",
+            "tests": []
+        },
+        {
+            "_id": "fe1eceef-57f7-4b68-be92-3b43c462c1f7",
+            "colId": "42c72c95-ca07-47ca-8529-d77a0e69b947",
+            "containerId": "6db7a1ef-bfac-48eb-b52a-63978e89e75c",
+            "name": "Register",
+            "url": "http://localhost:3000/api/v1/register",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-03-03T04:58:33.328Z",
+            "modified": "2024-03-03T04:59:31.326Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"romi\",\n  \"password\": \"1234\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "8929bc3c-9cb9-48fb-b3bb-398b3d1c0670",
+            "colId": "42c72c95-ca07-47ca-8529-d77a0e69b947",
+            "containerId": "ed4dc946-5422-464e-9031-271bba5ce102",
+            "name": "Add",
+            "url": "http://localhost:3000/api/v1/students",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-02-25T03:24:46.208Z",
+            "modified": "2024-02-25T03:26:53.103Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"name\": \"Rahmat\",\n    \"generation\": 31\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "0256d902-5f78-4644-81a5-cef53f1de86e",
+            "colId": "42c72c95-ca07-47ca-8529-d77a0e69b947",
+            "containerId": "6db7a1ef-bfac-48eb-b52a-63978e89e75c",
+            "name": "Login",
+            "url": "http://localhost:3000/api/v1/login",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-03-03T15:20:45.828Z",
+            "modified": "2024-03-10T04:21:40.948Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"romi\",\n  \"password\": \"1234\"\n}",
+                "form": []
+            },
+            "reqType": "post",
+            "tests": []
+        },
+        {
+            "_id": "1b1c8aec-4c3b-425f-b88d-ad766c16db87",
+            "colId": "42c72c95-ca07-47ca-8529-d77a0e69b947",
+            "containerId": "ed4dc946-5422-464e-9031-271bba5ce102",
+            "name": "Get by ID",
+            "url": "http://localhost:3000/api/v1/students/1",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2024-02-25T03:24:46.209Z",
+            "modified": "2024-02-25T03:24:46.209Z",
+            "headers": []
+        },
+        {
+            "_id": "0438baca-5f8f-4715-ae84-c5f8427c9086",
+            "colId": "42c72c95-ca07-47ca-8529-d77a0e69b947",
+            "containerId": "ed4dc946-5422-464e-9031-271bba5ce102",
+            "name": "Edit by ID",
+            "url": "http://localhost:3000/api/v1/students/2",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2024-02-25T03:24:46.210Z",
+            "modified": "2024-02-25T03:24:46.210Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\r\n    \"name\": \"Riri\",\r\n    \"generation\": 21,\r\n    \"present\": true\r\n}"
+            }
+        },
+        {
+            "_id": "ddb22ef6-ef66-4892-b731-79fb4273cde4",
+            "colId": "42c72c95-ca07-47ca-8529-d77a0e69b947",
+            "containerId": "ed4dc946-5422-464e-9031-271bba5ce102",
+            "name": "Delete by ID",
+            "url": "http://localhost:3000/api/v1/students/3",
+            "method": "DELETE",
+            "sortNum": 50000,
+            "created": "2024-02-25T03:24:46.211Z",
+            "modified": "2024-02-25T03:24:46.211Z",
+            "headers": []
+        }
+    ],
+    "settings": {
+        "auth": {
+            "type": "bearer",
+            "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJyb21pIiwicGFzc3dvcmQiOiIkYXJnb24yaWQkdj0xOSRtPTY1NTM2LHQ9MyxwPTQkelBMSkJLelB2VVlnRWxpd2QrQkladyR0Wml4dkJNNmhOOExpM0xST0gvdHRQNGdIVUsySys1SllmYWJSSC9LSmNZIiwiaWF0IjoxNzEwMTMzMzMyfQ.7JXtMr7F7SlpLHxjyb1t6pHeCy5g-kQp5Q87bMIbjco"
+        }
+    }
+}
