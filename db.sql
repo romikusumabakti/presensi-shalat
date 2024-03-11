@@ -1,6 +1,12 @@
+CREATE TABLE users (
+    id serial PRIMARY KEY,
+    username varchar NOT NULL,
+    password varchar NOT NULL
+);
+
 CREATE TABLE students (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR NOT NULL,
-    generation INT NOT NULL,
-    present BOOLEAN DEFAULT FALSE NOT NULL
+    id serial PRIMARY KEY,
+    name varchar NOT NULL,
+    generation int NOT NULL,
+    present boolean DEFAULT false NOT NULL
 );

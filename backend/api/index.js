@@ -1,18 +1,83 @@
 import express from "express";
 import cors from "cors";
 import { pool } from "../db.js";
+import argon2 from "argon2";
+import jwt from "jsonwebtoken";
 
 const app = express();
-app.use(express.json());
+
+app.use(express.json()); // bawaan framework
+
 app.use(
   cors({
-    origin: "https://presensi-shalat.vercel.app",
+    origin: ["http://localhost:5173", "https://presensi-shalat.vercel.app"],
   })
-);
+); // pihak ketiga
 
-// Hello world
-app.get("/api/v1", async (_req, res) => {
-  res.send("Selamat datang di Sistem Presensi Shalat!");
+app.use((req, res, next) => {
+  if (req.path.startsWith("/api")) {
+    next();
+  } else {
+    res.send('URL tidak valid (URL harus diawali "/api").');
+  }
+}); // buatan sendiri
+
+// Login
+app.post("/api/v1/login", async (req, res) => {
+  const result = await pool.query("SELECT * FROM users WHERE username = $1", [
+    req.body.username,
+  ]);
+  if (result.rows.length > 0) {
+    const user = result.rows[0];
+    if (await argon2.verify(user.password, req.body.password)) {
+      const token = jwt.sign(user, "bebas juga");
+      res.send({
+        token,
+        message: "Login berhasil.",
+      });
+    } else {
+      res.send("Kata sandi salah.");
+    }
+  } else {
+    res.send(
+      `Pengguna dengan nama pengguna ${req.body.username} tidak ditemukan.`
+    );
+  }
+});
+
+// Middleware otentikasi
+app.use((req, res, next) => {
+  const authorization = req.headers.authorization;
+  if (authorization) {
+    if (authorization.startsWith("Bearer ")) {
+      const token = authorization.split(" ")[1];
+      try {
+        req.user = jwt.verify(token, "bebas juga");
+        next();
+      } catch (error) {
+        res.send("Token tidak valid.");
+      }
+    } else {
+      res.send('Otorisasi tidak valid (harus "Bearer").');
+    }
+  } else {
+    res.send("Anda belum login (tidak ada otorisasi).");
+  }
+});
+
+// Welcome
+app.get("/api/v1", async (req, res) => {
+  res.send(`Selamat datang ${req.user.username} di Sistem Presensi Shalat!`);
+});
+
+// Register
+app.post("/api/v1/register", async (req, res) => {
+  const hash = await argon2.hash(req.body.password);
+  await pool.query("INSERT INTO users (username, password) VALUES ($1, $2)", [
+    req.body.username,
+    hash,
+  ]);
+  res.send("Pendaftaran berhasil.");
 });
 
 // Get all students
