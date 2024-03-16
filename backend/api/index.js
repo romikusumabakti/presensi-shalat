@@ -30,7 +30,7 @@ app.post("/api/v1/login", async (req, res) => {
   if (result.rows.length > 0) {
     const user = result.rows[0];
     if (await argon2.verify(user.password, req.body.password)) {
-      const token = jwt.sign(user, "bebas juga");
+      const token = jwt.sign(user, process.env.SECRET_KEY);
       res.send({
         token,
         message: "Login berhasil.",
@@ -45,6 +45,16 @@ app.post("/api/v1/login", async (req, res) => {
   }
 });
 
+// Register
+app.post("/api/v1/register", async (req, res) => {
+  const hash = await argon2.hash(req.body.password);
+  await pool.query("INSERT INTO users (username, password) VALUES ($1, $2)", [
+    req.body.username,
+    hash,
+  ]);
+  res.send("Pendaftaran berhasil.");
+});
+
 // Middleware otentikasi
 app.use((req, res, next) => {
   const authorization = req.headers.authorization;
@@ -52,7 +62,7 @@ app.use((req, res, next) => {
     if (authorization.startsWith("Bearer ")) {
       const token = authorization.split(" ")[1];
       try {
-        req.user = jwt.verify(token, "bebas juga");
+        req.user = jwt.verify(token, process.env.SECRET_KEY);
         next();
       } catch (error) {
         res.send("Token tidak valid.");
@@ -68,16 +78,6 @@ app.use((req, res, next) => {
 // Welcome
 app.get("/api/v1", async (req, res) => {
   res.send(`Selamat datang ${req.user.username} di Sistem Presensi Shalat!`);
-});
-
-// Register
-app.post("/api/v1/register", async (req, res) => {
-  const hash = await argon2.hash(req.body.password);
-  await pool.query("INSERT INTO users (username, password) VALUES ($1, $2)", [
-    req.body.username,
-    hash,
-  ]);
-  res.send("Pendaftaran berhasil.");
 });
 
 // Get all students
