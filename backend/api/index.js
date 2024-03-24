@@ -36,9 +36,11 @@ app.post("/api/v1/login", async (req, res) => {
         message: "Login berhasil.",
       });
     } else {
+      res.status(401);
       res.send("Kata sandi salah.");
     }
   } else {
+    res.status(404);
     res.send(
       `Pengguna dengan nama pengguna ${req.body.username} tidak ditemukan.`
     );
